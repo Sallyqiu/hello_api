@@ -1,5 +1,7 @@
 package com.hello.api.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hello.api.model.Survey;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,10 +30,18 @@ public class HelloApiControllerSpec {
     void should_return_survey_given_id_3() throws Exception {
         Survey expectSurvey = new Survey();
         expectSurvey.id = "3";
+        expectSurvey.floor = "F6";
 
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/hello"));
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders
+                .post("/hello")
+                .content(asJsonString(expectSurvey)));
         result
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$.id").value(expectSurvey.id));
+                .andExpect(jsonPath("$.id").value(expectSurvey.id))
+                .andExpect(jsonPath("$.floor").value(expectSurvey.floor));
+    }
+
+    static String asJsonString(final Object obj) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(obj);
     }
 }

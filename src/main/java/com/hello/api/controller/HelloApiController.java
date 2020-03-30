@@ -9,6 +9,8 @@ public class HelloApiController {
 
     @PostMapping("/hello")
     Survey addMethod() {
-        return new Survey();
+        Survey survey = new Survey();
+        survey.id = "3";
+        return survey;
     }
 }

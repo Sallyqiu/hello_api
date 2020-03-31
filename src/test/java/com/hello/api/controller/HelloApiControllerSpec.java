@@ -30,7 +30,9 @@ public class HelloApiControllerSpec {
 
     @Test
     void should_return_200_code_when_normal_case() throws Exception {
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/hello"));
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/hello")
+                    .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(new Survey())));
         result.andExpect(status().is2xxSuccessful());
     }
 
